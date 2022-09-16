@@ -1,11 +1,17 @@
+<?php
+
+include("conexao.php");
+$id = intval($_GET["id"]); 
+$sql_clientes = "SELECT * FROM clientes WHERE id = '$id'";
+$query_cliente = $mysqli->query($sql_clientes) or die($mysqli->error);
+$clientes = $query_cliente->fetch_assoc();
 
 
-    <?php
-
+var_dump($clientes);
 
 if (count($_POST) > 0) {
     
-    include("conexao.php");
+    
     echo "<h1>Dados enviados</h1>";
 
     global $error;
@@ -47,17 +53,20 @@ if (count($_POST) > 0) {
 
     if ($error) {
         $result .= "<p class='error'> ERRO: $error <br>";
-        echo $result;
-            
-        
+        echo $result;  
     } else if(!$error){
+
         $result = "deu certo";
-        $sql_code = "INSERT INTO clientes (nome, telefone, email, nascimento, data)
-        VALUES ('$nomePost','$telefonePost','$emailPost','$dataPost', NOW())";
+        $sql_code = "UPDATE clientes
+        SET nome = '$nomePost',
+        telefone = '$telefonePost',
+        email = '$emailPost',
+        nascimento = '$dataPost' 
+        WHERE id = '$id'";
         $deu_certo = $mysqli->query($sql_code) or die($mysqli->error);
         if ($deu_certo) {
 
-            echo "<p class='sucess'> Cliente cadastrado com sucesso</p>";
+            echo "<p class='sucess'> Cliente atualizado com sucesso</p>";
 
             if (isset($_POST["enviado"])) {
                 echo "<p>Nome: " . $nomePost . "</p> <br>";
@@ -73,9 +82,6 @@ if (count($_POST) > 0) {
 
 
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -97,24 +103,18 @@ if (count($_POST) > 0) {
 </head>
 
 <body>
+
+    <?php echo formatar_date($clientes["nascimento"])?>
+
     <a href="./clientes.php">Lista de Clientes</a>
     <form action="" method="post">
-        <p>Nome: <input type="text" value="<?php
-                                            if (isset($_POST["nome"])) echo $_POST["nome"]?>" name="nome"></p>
+        <p>Nome: <input type="text" value="<?php echo $clientes["nome"]?>" name="nome"></p>
 
-        <p>Email: <input type="text" name="email" value="<?php
-                                                            if (isset($_POST["email"])) {
-                                                                echo $_POST["email"];
-                                                            }
-                                                            ?>"></p>
+        <p>Email: <input type="text" name="email" value="<?php echo $clientes["email"]?>"></p>
+        
+        <p>Telefone: <input name="telefone" type="number" value="<?php echo $clientes["telefone"] ?>"></p>
 
-        <p>Telefone: <input type="" name="telefone" value="<?php
-                                                                    if (isset($_POST["telefone"])) {
-                                                                        echo $_POST["telefone"];
-                                                                    }
-                                                                    ?>"></p>
-
-        <p>Data de Nascimento: <input type="" value="2022-09-15" name="data" id=""></p>
+        <p>Data de Nascimento: <input type="date" value="<?php echo $clientes["nascimento"]?>" name="data" id=""></p>
 
         <button name="enviado" type="submit">Enviar</button>
 
