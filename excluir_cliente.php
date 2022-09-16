@@ -29,7 +29,7 @@
     <h1>Deseja realmente excluir</h1>
     <?php echo var_dump($_POST); ?>
     <form action="" method="post">
-        <a href="./clientes.php">Não</a>
+        <a href="clientes.php">Não</a>
         <button name="confirmar" value="sim" type="submit">sim</button>
     </form>
 
