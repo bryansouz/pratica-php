@@ -34,19 +34,17 @@ $num_clientes =  $query_clientes->num_rows;
             
         </thead>
 
-        <?php
-            if($num_clientes == 0) { ?>
+        <?php if($num_clientes == 0) { ?>
               <tr>
                 <td colspan="7">Nenhum cliente foi cadastrado</td>
               </tr>
 
-        <?php } else{
+        <?php }
+         else{
             while ($clientes = $query_clientes->fetch_assoc()) {
 
 
-                $horario = date("d-m-Y H:i", strtotime( $clientes["data"]));
-
-                
+                $horario = date("d-m-Y H:i", strtotime( $clientes["data"])); 
                 $telefone = "";
                 if(!empty($clientes["telefone"])){
                     $p9 = substr($clientes["telefone"], 2,1);
@@ -58,7 +56,6 @@ $num_clientes =  $query_clientes->num_rows;
                     $telefone .= $p2 . "-";
                     $telefone .= $p3;
                 }
-
                 $nascimento = implode("/", array_reverse(explode('-', $clientes["nascimento"])));
                 
             ?>

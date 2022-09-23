@@ -1,6 +1,4 @@
-
-
-    <?php
+<?php
 
 
 if (count($_POST) > 0) {
@@ -14,6 +12,7 @@ if (count($_POST) > 0) {
     $emailPost = $_POST["email"];
     $nomePost = $_POST["nome"];
     $telefonePost =  $_POST["telefone"];
+    $dataPost = implode("-", array_reverse(explode('/', $_POST["data"])));
 
 
     function limpar_texto($str)
@@ -21,15 +20,12 @@ if (count($_POST) > 0) {
         return preg_replace("/[^0-9]/", "", $str);
     };
 
-
-
     if (strlen($telefonePost) > 12 || strlen($telefonePost) < 8) {
         $telefonePost = false;
         $error .= "O telefone deve ser preenchido no padrão <em>''(51) 9999-9999''</em><br>";
     } else {
         $telefonePost = limpar_texto($telefonePost);
     };
-
 
     if (filter_var($emailPost, FILTER_VALIDATE_EMAIL) == false) {
         $emailPost = false;
@@ -42,8 +38,6 @@ if (count($_POST) > 0) {
         $error .= "Complete seu nome corretamente<br>";
     } else {
     }
-
-    $dataPost = $_POST["data"];
 
     if ($error) {
         $result .= "<p class='error'> ERRO: $error <br>";
@@ -70,7 +64,6 @@ if (count($_POST) > 0) {
         }
     }
 }
-
 
 ?>
 

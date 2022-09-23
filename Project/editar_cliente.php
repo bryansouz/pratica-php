@@ -1,7 +1,9 @@
 <?php
 
 include("conexao.php");
+
 $id = intval($_GET["id"]); 
+echo $id;
 $sql_clientes = "SELECT * FROM clientes WHERE id = '$id'";
 $query_cliente = $mysqli->query($sql_clientes) or die($mysqli->error);
 $clientes = $query_cliente->fetch_assoc();
@@ -104,9 +106,10 @@ if (count($_POST) > 0) {
 
 <body>
 
-    <?php echo formatar_date($clientes["nascimento"])?>
+
 
     <a href="./clientes.php">Lista de Clientes</a>
+    <?php  echo $id ?>
     <form action="" method="post">
         <p>Nome: <input type="text" value="<?php echo $clientes["nome"]?>" name="nome"></p>
 
